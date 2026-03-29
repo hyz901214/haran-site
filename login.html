@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登录 - Haran小站</title>
+</head>
+<body>
+<h1>登录</h1>
+<form id="loginForm">
+  <label>邮箱: <input type="email" id="email" required></label><br>
+  <label>密码: <input type="password" id="password" required></label><br>
+  <button type="submit">登录</button>
+</form>
+<p id="msg"></p>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const res = await fetch('/api/login', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({email,password})
+    });
+    const data = await res.json();
+    document.getElementById('msg').innerText = data.message;
+    if(data.success){
+        alert("登录成功！");
+        // 可跳转首页
+        window.location.href = '/';
+    }
+});
+</script>
+</body>
+</html>
